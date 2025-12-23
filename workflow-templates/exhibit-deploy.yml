@@ -1,0 +1,35 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  # -----------------------------------------------------------------
+  # STAGE 1: Staging (Automatic Deployment)
+  # -----------------------------------------------------------------
+  deploy-staging:
+    uses: south-asian-canadian-digital-archive/.github-private/.github/workflows/reusable-exhibit-deploy.yml@v1
+    with:
+      destination_dir: '{{ destination_dir }}'
+      environment: 'staging'
+      runner_label: 'sac-app01-x-tst'
+    secrets: inherit
+
+  # -----------------------------------------------------------------
+  # STAGE 2: Production (Manual Approval)
+  # -----------------------------------------------------------------
+  deploy-prod:
+    needs: deploy-staging
+    uses: south-asian-canadian-digital-archive/.github-private/.github/workflows/reusable-exhibit-deploy.yml@v1
+    with:
+      destination_dir: '{{ destination_dir }}'
+      environment: 'production'
+      # [TODO]: Ensure this matches the target production server
+      runner_label: 'sac-app01-x-prd'
+    secrets: inherit

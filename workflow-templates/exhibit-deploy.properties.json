@@ -1,0 +1,12 @@
+{
+    "name": "SACDA Exhibit Deployment",
+    "description": "Deploys a SvelteKit exhibit to Staging (Auto) and Production (Manual).",
+    "iconName": "server",
+    "categories": [
+        "Deployment"
+    ],
+    "filePatterns": [
+        "svelte.config.js",
+        "package.json"
+    ]
+}
